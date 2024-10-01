@@ -148,7 +148,7 @@
         </tr>
         @empty
         <tr>
-            <td colspan="5" class="text-center">No Products Added</td>
+            <td colspan="6" class="text-center">No Products Added</td>
         </tr>
         @endforelse
     </tbody>

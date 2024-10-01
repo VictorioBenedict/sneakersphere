@@ -126,55 +126,68 @@ class ShoeController extends Controller
         }
     }
  
-    public function session(Request $request)
+    /*
+public function session(Request $request)
 {
+    // Set the Stripe API key from the configuration
     \Stripe\Stripe::setApiKey(config('stripe.sk'));
 
+    // Retrieve product name and total price from the request
     $productname = $request->get('productname');
     $totalprice = $request->get('total');
-    $totalInCents = intval($totalprice) * 100; // Convert dollars to cents
 
+    // Convert the total price from dollars to cents for Stripe
+    $totalInCents = intval($totalprice) * 100;
+
+    // Create a new Stripe Checkout session
     $session = \Stripe\Checkout\Session::create([
-        'line_items'  => [
+        'line_items' => [
             [
                 'price_data' => [
-                    'currency'     => 'PHP',
+                    'currency' => 'PHP', // Currency code
                     'product_data' => [
-                        "name" => $productname,
+                        "name" => $productname, // Name of the product
                     ],
-                    'unit_amount'  => $totalInCents,
+                    'unit_amount' => $totalInCents, // Amount in cents
                 ],
-                'quantity'   => 1,
+                'quantity' => 1, // Quantity of the product
             ],
         ],
-        'mode'        => 'payment',
-        'success_url' => route('success'),
-        'cancel_url'  => route('mycart'),
+        'mode' => 'payment', // Payment mode (payment, setup, or subscription)
+        'success_url' => route('success'), // URL to redirect after successful payment
+        'cancel_url' => route('mycart'), // URL to redirect if payment is canceled
     ]);
 
+    // Redirect the user to the Stripe Checkout page
     return redirect()->away($session->url);
 }
 
-    public function success(Request $request)
-    {   
-        
-        
-        $cart = session()->get('cart');
-        // Save each cart item to the database
-        foreach ($cart as $productId => $item) {
-            CartItem::create([
-                'product_id' => $productId,
-                'name' => $item['name'],
-                'image' => $item['image'],
-                'quantity' => $item['quantity'],
-                'size' => $item['size'],
-                'price' => $item['price']
-                // Add other fields as needed
-            ]);
-        }
-        session()->forget('cart');
-        return redirect('/yha!2746dghmzndccghfdujmAzhc681028fghfbz/home')->with('success','Thankyou For Purchasing!');
+public function success(Request $request)
+{   
+    // Retrieve the cart items from the session
+    $cart = session()->get('cart');
+
+    // Save each cart item to the database
+    foreach ($cart as $productId => $item) {
+        CartItem::create([
+            'product_id' => $productId, // Product ID from the cart
+            'name' => $item['name'], // Name of the product
+            'image' => $item['image'], // Image of the product
+            'quantity' => $item['quantity'], // Quantity purchased
+            'size' => $item['size'], // Size of the product
+            'price' => $item['price'] // Price of the product
+            // Add other fields as needed
+        ]);
     }
+
+    // Clear the cart from the session
+    session()->forget('cart');
+
+    // Redirect to home with a success message
+    return redirect('/yha!2746dghmzndccghfdujmAzhc681028fghfbz/home')->with('success', 'Thank you for purchasing!');
+}
+*/
+
 
     public function search(Request $request){
         $search = $request->search;
